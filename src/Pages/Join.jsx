@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { Link } from "react-router-dom";
 import "../firebase";
@@ -39,52 +39,57 @@ function Join() {
   // state
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const postUserData = useCallback(
+    async (name, email, password) => {
+      setLoading(true);
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          getAuth(),
+          email,
+          password
+        );
+        await updateProfile(user, {
+          displayName: name,
+          photoURL: `https://www.gravatar.com/avatar/${md5(email)}?d=mp`,
+        });
+        await set(ref(getDatabase(), "users/" + user.uid), {
+          name: user.displayName,
+          avatar: user.photoURL,
+        });
+        // store에 user정보 저장
+        dispatch(setUser(user));
+      } catch (e) {
+        setError(e.message);
+        setLoading(false);
+      }
+    },
+    [dispatch]
+  );
 
   // submit
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = data.get("name");
-    const email = data.get("email");
-    const password = data.get("password");
-    const confirmPassword = data.get("confirmPassword");
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const name = data.get("name");
+      const email = data.get("email");
+      const password = data.get("password");
+      const confirmPassword = data.get("confirmPassword");
 
-    // 아이디 패스워드 생성규칙
-    if (!name || !email || !password || !confirmPassword) {
-      setError("모든 항목을 입력하세요.");
-      return;
-    }
-    if (!isPasswordLength(password, confirmPassword)) {
-      setError("비밀번호 8자리 이상 입력하세요.");
-    } else if (!isPasswordValid(password, confirmPassword)) {
-      setError("비밀번호를 확인하세요.");
-    }
-    postUserData(name, email, password);
-  };
-
-  const postUserData = async (name, email, password) => {
-    setLoading(true);
-    try {
-      const { user } = await createUserWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
-      );
-      await updateProfile(user, {
-        displayName: name,
-        photoURL: `https://www.gravatar.com/avatar/${md5(email)}?d=mp`,
-      });
-      await set(ref(getDatabase(), "users/" + user.uid), {
-        name: user.displayName,
-        avatar: user.photoURL,
-      });
-      // store에 user정보 저장
-      dispatch(setUser(user));
-    } catch (e) {
-      setError(e.message);
-      setLoading(false);
-    }
-  };
+      // 아이디 패스워드 생성규칙
+      if (!name || !email || !password || !confirmPassword) {
+        setError("모든 항목을 입력하세요.");
+        return;
+      }
+      if (!isPasswordLength(password, confirmPassword)) {
+        setError("비밀번호 8자리 이상 입력하세요.");
+      } else if (!isPasswordValid(password, confirmPassword)) {
+        setError("비밀번호를 확인하세요.");
+      }
+      postUserData(name, email, password);
+    },
+    [postUserData]
+  );
 
   useEffect(() => {
     if (!error) return;

@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
 import { useSelector } from "react-redux";
 import "../firebase";
@@ -21,11 +21,11 @@ function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
 
   //   menu event
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = useCallback((event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
   //   setAnchorEl을 null로 초기화 함으로 menu닫기
-  const handleCloseMenu = () => setAnchorEl(null);
+  const handleCloseMenu = useCallback(() => setAnchorEl(null), []);
 
   //   로그아웃
   const handleLogout = async () => {
@@ -39,8 +39,10 @@ function Header() {
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          color: "#9a939b",
-          backgroundColor: "#4c3c4c",
+          // color: "#9a939b",
+          color: "#eef3ee",
+          // backgroundColor: "#4c3c4c",
+          backgroundColor: "#a5a19c",
         }}
       >
         <Toolbar
@@ -50,7 +52,7 @@ function Header() {
             height: "50px",
           }}
         >
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <TagIcon />
             <Typography variant="h6" component="div">
               JJUNNY COMMUNITY
@@ -61,7 +63,7 @@ function Header() {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ color: "#9a939b" }}
+                sx={{ color: "#eef3ee" }}
               >
                 {user.currentUser?.displayName}
               </Typography>

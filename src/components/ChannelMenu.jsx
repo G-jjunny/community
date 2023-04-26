@@ -24,6 +24,8 @@ import {
   ref,
   update,
 } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { setCurrentChannel } from "../store/channelReducer";
 
 function ChannelMenu() {
   // state
@@ -33,7 +35,10 @@ function ChannelMenu() {
   const [channels, setChannels] = useState([]);
   const [activeChannelId, setActiveChannelId] = useState("");
   const [firstLoaded, setFirstLoaded] = useState(true);
+  const dispatch = useDispatch();
 
+  const handleClickOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
   //   handle
   useEffect(() => {
     // Mount 후 데이터 정보를 가져옴
@@ -50,12 +55,23 @@ function ChannelMenu() {
     };
   }, []);
 
-  const handleClickOpen = useCallback(() => setOpen(true), []);
-  const handleClose = useCallback(() => setOpen(false), []);
+  const changeChannel = useCallback(
+    (channel) => {
+      if (channel.id === activeChannelId) return;
+      setActiveChannelId(channel.id);
+      dispatch(setCurrentChannel(channel));
+    },
+    [dispatch, activeChannelId]
+  );
 
-  const changeChannel = (channel) => {
-    setActiveChannelId(channel.id);
-  };
+  const handleChangeChannelName = useCallback(
+    (e) => setChannelName(e.target.value),
+    []
+  );
+  const handleChangeChannelDetail = useCallback(
+    (e) => setChannelDetail(e.target.value),
+    []
+  );
 
   const handleSubmit = useCallback(async () => {
     //   data를 firebase에 저장
@@ -82,48 +98,55 @@ function ChannelMenu() {
   useEffect(() => {
     if (channels.length > 0 && firstLoaded) {
       setActiveChannelId(channels[0].id);
+      dispatch(setCurrentChannel(channels[0]));
       setFirstLoaded(false);
     }
-  }, [channels, firstLoaded]);
+  }, [channels, dispatch, firstLoaded]);
+
+  const onKeyPressEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
 
   return (
     <>
       {/* TODO 테마 반영 */}
-      <List sx={{ overflow: "auto", width: 240, backgroundColor: "#4c3c4c" }}>
+      <List sx={{ overflow: "auto", width: 240, backgroundColor: "#a5a19c" }}>
         <ListItem
           secondaryAction={
-            <IconButton sx={{ color: "#9a939b" }} onClick={handleClickOpen}>
+            <IconButton sx={{ color: "#eef3ee" }} onClick={handleClickOpen}>
               <AddIcon />
             </IconButton>
           }
         >
-          <ListItemIcon sx={{ color: "#9a939b" }}>
+          <ListItemIcon sx={{ color: "#eef3ee" }}>
             <ArrowDropDownIcon />
           </ListItemIcon>
           <ListItemText
             primary="채널"
-            sx={{ wordBreak: "break-all", color: "#9a939b" }}
+            sx={{ wordBreak: "break-all", color: "#eef3ee" }}
           />
         </ListItem>
-        <List component={"div"} disablePadding sx={{ pl: 3 }}>
-          {
-            // TODO store구현, selected 구현
-            channels.map((channel) => (
-              <ListItem
-                button
-                key={channel.id}
-                onClick={() => changeChannel(channel)}
-                selected={channel.id === activeChannelId}
-              >
-                <ListItemText
-                  primary={`# ${channel.name}`}
-                  sx={{ wordBreak: "break-all", color: "#918890" }}
-                />
-              </ListItem>
-            ))
-          }
-        </List>
+        {/* <List component={"div"} disablePadding sx={{ pl: 3 }}> */}
+        {
+          // TODO store구현, selected 구현
+          channels.map((channel) => (
+            <ListItem
+              button
+              selected={channel.id === activeChannelId}
+              onClick={() => changeChannel(channel)}
+              key={channel.id}
+            >
+              <ListItemText
+                primary={`# ${channel.name}`}
+                sx={{ wordBreak: "break-all", color: "#eef3ee" }}
+              />
+            </ListItem>
+          ))
+        }
       </List>
+      {/* </List> */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>채널 추가</DialogTitle>
         <DialogContent>
@@ -137,7 +160,7 @@ function ChannelMenu() {
             type={"text"}
             fullWidth
             variant="standard"
-            onChange={(e) => setChannelName(e.target.value)}
+            onChange={handleChangeChannelName}
           />
           <TextField
             margin="dense"
@@ -145,7 +168,8 @@ function ChannelMenu() {
             type={"text"}
             fullWidth
             variant="standard"
-            onChange={(e) => setChannelDetail(e.target.value)}
+            onChange={handleChangeChannelDetail}
+            onKeyPress={onKeyPressEnter}
           />
         </DialogContent>
         <DialogActions>

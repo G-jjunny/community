@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
   Avatar,
@@ -19,21 +19,7 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // handle
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
-
-    if (!email || !password) {
-      setError("모든 항목을 입력해주세요");
-      return;
-    }
-    loginUser(email, password);
-  };
-
-  const loginUser = async (email, password) => {
+  const loginUser = useCallback(async (email, password) => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(getAuth(), email, password);
@@ -41,7 +27,25 @@ function Login() {
       setError(e.message);
       setLoading(false);
     }
-  };
+  }, []);
+
+  // handle
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const email = data.get("email");
+      const password = data.get("password");
+
+      if (!email || !password) {
+        setError("모든 항목을 입력해주세요");
+        return;
+      }
+      loginUser(email, password);
+    },
+    [loginUser]
+  );
+
   useEffect(() => {
     if (!error) return;
     // error메세지 3초뒤 제거
