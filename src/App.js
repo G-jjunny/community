@@ -28,7 +28,7 @@ function App() {
   if (isLoading) {
     return (
       <Stack alignItems={"center"} justifyContent="center" height={"100vh"}>
-        <CircularProgress color="secondary" size={150} />
+        <CircularProgress color="primary" size={130} />
       </Stack>
     );
   }

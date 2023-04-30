@@ -1,8 +1,9 @@
-.no-scroll *::-webkit-scrollbar {
-  display: none;
-}
-
 :root {
   --main-color: #a5a19c;
+  --secondary-color: #e0dac7;
   --white-color: #eef3ee;
+}
+
+.no-scroll *::-webkit-scrollbar {
+  display: none;
 }

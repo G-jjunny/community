@@ -13,12 +13,14 @@ import TagIcon from "@mui/icons-material/Tag";
 import { useSelector } from "react-redux";
 import "../firebase";
 import { getAuth, signOut } from "firebase/auth";
+import ProfileModal from "./Modal/ProfileModal";
 
 function Header() {
   const { user } = useSelector((state) => state);
 
   // state
   const [anchorEl, setAnchorEl] = useState(null);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   //   menu event
   const handleOpenMenu = useCallback((event) => {
@@ -26,6 +28,16 @@ function Header() {
   }, []);
   //   setAnchorEl을 null로 초기화 함으로 menu닫기
   const handleCloseMenu = useCallback(() => setAnchorEl(null), []);
+
+  // profile modal state
+  const handleClickOpen = useCallback(() => {
+    setShowProfileModal(true);
+    handleCloseMenu();
+  }, [handleCloseMenu]);
+
+  const handleCloseProfileModal = useCallback(() => {
+    setShowProfileModal(false);
+  }, []);
 
   //   로그아웃
   const handleLogout = async () => {
@@ -80,8 +92,8 @@ function Header() {
               onClose={handleCloseMenu}
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
             >
-              <MenuItem>
-                <Typography textAlign={"center"}>프로필이미지</Typography>
+              <MenuItem onClick={handleClickOpen}>
+                <Typography textAlign={"center"}>프로필 변경</Typography>
               </MenuItem>
               <MenuItem onClick={handleLogout}>
                 <Typography textAlign={"center"}>로그아웃</Typography>
@@ -90,6 +102,10 @@ function Header() {
           </Box>
         </Toolbar>
       </AppBar>
+      <ProfileModal
+        open={showProfileModal}
+        handleClose={handleCloseProfileModal}
+      />
     </>
   );
 }

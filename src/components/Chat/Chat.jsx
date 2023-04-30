@@ -1,5 +1,5 @@
 import { Divider, Grid, List, Paper, Toolbar } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./ChatHeader";
 import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
@@ -19,6 +19,7 @@ import {
 function Chat() {
   const { channel, user } = useSelector((state) => state);
   const [messages, setMessages] = useState([]);
+  const messageEndRef = useRef();
 
   // 이미 저장된 메세지
   useEffect(() => {
@@ -51,6 +52,15 @@ function Chat() {
     };
   }, [channel.currentChannel]);
 
+  useEffect(() => {
+    const setTimeoutId = setTimeout(() => {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }, 2000);
+    return () => {
+      clearTimeout(setTimeoutId);
+    };
+  }, [messages.length]);
+
   return (
     <>
       <Toolbar />
@@ -64,7 +74,8 @@ function Chat() {
         <List
           sx={{
             height: "calc(100vh - 350px)",
-            overflow: "scroll",
+            minHeight: "250px",
+            overflowY: "scroll",
             width: "100%",
             position: "relative",
           }}
@@ -77,6 +88,7 @@ function Chat() {
               user={user}
             />
           ))}
+          <div ref={messageEndRef}></div>
         </List>
         <Divider />
         <ChatInput />

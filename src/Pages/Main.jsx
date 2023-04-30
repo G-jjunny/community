@@ -1,6 +1,6 @@
 import { Box, Drawer, Toolbar } from "@mui/material";
 import React from "react";
-import ChannelMenu from "../components/ChannelMenu";
+import ChannelMenu from "../components/Menu/ChannelMenu";
 import Header from "../components/Header";
 import Chat from "../components/Chat/Chat";
 

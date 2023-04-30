@@ -11,10 +11,14 @@ import React from "react";
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 
+// 받은 메세지가 이미지인지 구분
+const IsImage = (message) => message.hasOwnProperty("image");
+
 function ChatMessage({ message, user }) {
   return (
     <ListItem
       sx={{
+        mb: "5px",
         p: "4px 16px",
         display: "flex",
         flexDirection:
@@ -28,7 +32,7 @@ function ChatMessage({ message, user }) {
       >
         <Avatar
           variant="rounded"
-          sx={{ width: 50, height: 50 }}
+          sx={{ width: 50, height: 50, borderRadius: "15px" }}
           alt="profile image"
           src={message.user.avatar}
         />
@@ -51,6 +55,7 @@ function ChatMessage({ message, user }) {
         >
           <ListItemText
             sx={{
+              mt: 0,
               display: "flex",
               flexDirection:
                 message.user.id === user.currentUser.uid ? "row-reverse" : "",
@@ -71,23 +76,39 @@ function ChatMessage({ message, user }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <ListItemText
-            align="left"
-            sx={{
-              wordBreak: "break-all",
-              background: "var(--white-color)",
-              p: "5px 10px 5px 10px",
-              borderRadius:
-                message.user.id === user.currentUser.uid
-                  ? "8px 0 8px 8px"
-                  : "0 8px 8px 8px",
-              display: "inline-block",
-              float: message.user.id === user.currentUser.uid ? "right" : "",
-            }}
-            primary={message.content}
-          />
           {/* add TODO image */}
-          {/* <img alt="img message" src="" style={{ maxWidth: "100%" }} /> */}
+          {IsImage(message) ? (
+            <img
+              alt="img message"
+              src={message.image}
+              style={{
+                borderRadius: "8px",
+                maxWidth: "40%",
+                float:
+                  message.user.id === user.currentUser.uid ? "right" : "left",
+              }}
+            />
+          ) : (
+            <ListItemText
+              align="left"
+              sx={{
+                marginTop: "0px",
+                wordBreak: "break-all",
+                background:
+                  message.user.id === user.currentUser.uid
+                    ? "var(--secondary-color)"
+                    : "var(--white-color)",
+                p: "5px 10px 5px 10px",
+                borderRadius:
+                  message.user.id === user.currentUser.uid
+                    ? "8px 0 8px 8px"
+                    : "0 8px 8px 8px",
+                display: "inline-block",
+                float: message.user.id === user.currentUser.uid ? "right" : "",
+              }}
+              primary={message.content}
+            />
+          )}
         </Grid>
       </Grid>
     </ListItem>

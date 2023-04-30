@@ -15,7 +15,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import "../firebase";
+import "../../firebase";
 import {
   child,
   getDatabase,
@@ -25,7 +25,7 @@ import {
   update,
 } from "firebase/database";
 import { useDispatch } from "react-redux";
-import { setCurrentChannel } from "../store/channelReducer";
+import { setCurrentChannel } from "../../store/channelReducer";
 
 function ChannelMenu() {
   // state
@@ -103,11 +103,11 @@ function ChannelMenu() {
     }
   }, [channels, dispatch, firstLoaded]);
 
-  const onKeyPressEnter = (e) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
-  };
+  // const onKeyPressEnter = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleSubmit();
+  //   }
+  // };
 
   return (
     <>
@@ -169,7 +169,7 @@ function ChannelMenu() {
             fullWidth
             variant="standard"
             onChange={handleChangeChannelDetail}
-            onKeyPress={onKeyPressEnter}
+            // onKeyPress={onKeyPressEnter}
           />
         </DialogContent>
         <DialogActions>
