@@ -9,11 +9,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
-import TagIcon from "@mui/icons-material/Tag";
 import { useSelector } from "react-redux";
 import "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import ProfileModal from "./Modal/ProfileModal";
+import TelegramIcon from "@mui/icons-material/Telegram";
 
 function Header() {
   const { user } = useSelector((state) => state);
@@ -65,8 +65,12 @@ function Header() {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <TagIcon />
-            <Typography variant="h6" component="div">
+            <TelegramIcon />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ fontWeight: "bold" }}
+            >
               JJUNNY COMMUNITY
             </Typography>
           </Box>

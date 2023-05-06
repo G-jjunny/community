@@ -63,18 +63,32 @@ function Chat() {
 
   return (
     <>
-      <Toolbar />
-      <ChatHeader channelInfo={channel.currentChannel} />
+      {/* <Toolbar /> */}
+      {/* <ChatHeader channelInfo={channel.currentChannel} /> */}
       <Grid
         container
         component={Paper}
         variant="outlined"
-        sx={{ mt: 3, position: "relative" }}
+        sx={{ mt: 8, position: "relative" }}
       >
+        {/* <div style={{ width: "100%", position: "absolute" }}>
+          <p
+            style={{
+              fontSize: "26px",
+              fontWeight: "600",
+              margin: "5px",
+              textAlign: "center",
+            }}
+          >
+            {channel.currentChannel?.name}
+          </p>
+        </div> */}
         <List
           sx={{
+            zIndex: "5",
+            pt: "45px",
             height: "calc(100vh - 350px)",
-            minHeight: "250px",
+            // minHeight: "250px",
             overflowY: "scroll",
             width: "100%",
             position: "relative",
@@ -92,6 +106,18 @@ function Chat() {
         </List>
         <Divider />
         <ChatInput />
+        <div style={{ width: "100%", position: "absolute", top: "0" }}>
+          <p
+            style={{
+              fontSize: "26px",
+              fontWeight: "600",
+              margin: "5px 0 8px",
+              textAlign: "center",
+            }}
+          >
+            {channel.currentChannel?.name}
+          </p>
+        </div>
       </Grid>
     </>
   );
