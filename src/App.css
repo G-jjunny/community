@@ -27,4 +27,5 @@
   height: 26px;
   border-radius: 3px;
   display: flex;
+  border: 1px solid #556;
 }

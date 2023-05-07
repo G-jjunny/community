@@ -118,8 +118,8 @@ function ChatInput() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <IconButton>
-                  <InsertEmoticonIcon onClick={handleTogglePicker} />
+                <IconButton onClick={handleTogglePicker}>
+                  <InsertEmoticonIcon />
                 </IconButton>
                 <IconButton onClick={handleClickOpen}>
                   <ImageIcon />

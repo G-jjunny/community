@@ -80,7 +80,7 @@ function Header() {
                 variant="h6"
                 component="div"
                 // sx={{ color: "#eef3ee" }}
-                sx={{ color: theme.textTheme }}
+                sx={{ color: theme.textTheme, fontWeight: "bold" }}
               >
                 {user.currentUser?.displayName}
               </Typography>

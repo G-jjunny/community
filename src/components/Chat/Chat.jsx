@@ -1,6 +1,5 @@
-import { Divider, Grid, List, Paper, Toolbar } from "@mui/material";
+import { Divider, Grid, List, Paper } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import ChatHeader from "./ChatHeader";
 import { useSelector } from "react-redux";
 import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
@@ -17,7 +16,7 @@ import {
 } from "firebase/database";
 
 function Chat() {
-  const { channel, user } = useSelector((state) => state);
+  const { channel, user, theme } = useSelector((state) => state);
   const [messages, setMessages] = useState([]);
   const messageEndRef = useRef();
 
@@ -71,23 +70,42 @@ function Chat() {
         variant="outlined"
         sx={{ mt: 8, position: "relative" }}
       >
-        {/* <div style={{ width: "100%", position: "absolute" }}>
+        <div
+          style={{
+            width: "100%",
+            // textAlign: "center",
+            alignItems: "flex-end",
+            backgroundColor: theme.subTheme,
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <p
             style={{
-              fontSize: "26px",
-              fontWeight: "600",
-              margin: "5px",
-              textAlign: "center",
+              margin: "5px 0 10px 25px",
+              fontSize: "36px",
+              fontWeight: "bold",
+              color: theme.textTheme,
             }}
           >
             {channel.currentChannel?.name}
           </p>
-        </div> */}
+          <p
+            style={{
+              margin: "5px 25px 15px 0",
+              color: theme.textTheme,
+              fontSize: "24px",
+            }}
+          >
+            {channel.currentChannel?.details}
+          </p>
+        </div>
         <List
           sx={{
             zIndex: "5",
-            pt: "45px",
-            height: "calc(100vh - 265px)",
+            // pt: "45px",
+            height: "calc(100vh - 330px)",
+            // height: "100%",
             // minHeight: "250px",
             overflowY: "scroll",
             width: "100%",
@@ -106,7 +124,7 @@ function Chat() {
         </List>
         <Divider />
         <ChatInput />
-        <div style={{ width: "100%", position: "absolute", top: "0" }}>
+        {/* <div style={{ width: "100%", position: "absolute", top: "0" }}>
           <p
             style={{
               fontSize: "26px",
@@ -117,7 +135,7 @@ function Chat() {
           >
             {channel.currentChannel?.name}
           </p>
-        </div>
+        </div> */}
       </Grid>
     </>
   );

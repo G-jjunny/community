@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setTheme } from "../../store/themeReducer";
 
 function ThemeMenu() {
-  const { user } = useSelector((state) => state);
+  const { user, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   // state
   const [showThemeModal, setShowThemeModal] = useState(false);
@@ -75,9 +75,11 @@ function ThemeMenu() {
 
   return (
     <>
-      <List sx={{ overflow: "auto", width: 60, backgroundColor: "#5f5f5f" }}>
+      <List
+        sx={{ overflow: "auto", width: 60, backgroundColor: theme.subTheme }}
+      >
         <ListItem button onClick={handleClickOpen}>
-          <ListItemIcon sx={{ color: "white" }}>
+          <ListItemIcon sx={{ color: theme.textTheme }}>
             <PaletteIcon />
           </ListItemIcon>
         </ListItem>
