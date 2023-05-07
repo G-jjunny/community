@@ -24,10 +24,11 @@ import {
   ref,
   update,
 } from "firebase/database";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentChannel } from "../../store/channelReducer";
 
 function ChannelMenu() {
+  const { theme } = useSelector((state) => state);
   // state
   const [open, setOpen] = useState(false);
   const [channelName, setChannelName] = useState("");
@@ -112,20 +113,25 @@ function ChannelMenu() {
   return (
     <>
       {/* TODO 테마 반영 */}
-      <List sx={{ overflow: "auto", width: 240, backgroundColor: "#a5a19c" }}>
+      <List
+        sx={{ overflow: "auto", width: 240, backgroundColor: theme.mainTheme }}
+      >
         <ListItem
           secondaryAction={
-            <IconButton sx={{ color: "#eef3ee" }} onClick={handleClickOpen}>
+            <IconButton
+              sx={{ color: theme.textTheme }}
+              onClick={handleClickOpen}
+            >
               <AddIcon />
             </IconButton>
           }
         >
-          <ListItemIcon sx={{ color: "#eef3ee" }}>
+          <ListItemIcon sx={{ color: theme.textTheme }}>
             <ArrowDropDownIcon />
           </ListItemIcon>
           <ListItemText
             primary="채널"
-            sx={{ wordBreak: "break-all", color: "#eef3ee" }}
+            sx={{ wordBreak: "break-all", color: theme.textTheme }}
           />
         </ListItem>
         {/* <List component={"div"} disablePadding sx={{ pl: 3 }}> */}
@@ -140,7 +146,7 @@ function ChannelMenu() {
             >
               <ListItemText
                 primary={`# ${channel.name}`}
-                sx={{ wordBreak: "break-all", color: "#eef3ee" }}
+                sx={{ wordBreak: "break-all", color: theme.textTheme }}
               />
             </ListItem>
           ))

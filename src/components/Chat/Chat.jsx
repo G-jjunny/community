@@ -87,7 +87,7 @@ function Chat() {
           sx={{
             zIndex: "5",
             pt: "45px",
-            height: "calc(100vh - 350px)",
+            height: "calc(100vh - 265px)",
             // minHeight: "250px",
             overflowY: "scroll",
             width: "100%",

@@ -9,17 +9,21 @@
 }
 
 .theme-main {
-  width: 13px;
+  width: 10px;
   height: 26px;
 }
 .theme-sub {
-  width: 13px;
+  width: 10px;
+  height: 26px;
+}
+.theme-text {
+  width: 10px;
   height: 26px;
 }
 .theme-box {
   cursor: pointer;
   overflow: hidden;
-  width: 26px;
+  width: 30px;
   height: 26px;
   border-radius: 3px;
   display: flex;

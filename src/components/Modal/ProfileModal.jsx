@@ -72,9 +72,9 @@ function ProfileModal({ open, handleClose }) {
       await updateProfile(user.currentUser, {
         photoURL: uploadedCroppedImage,
       });
-      const newDate = { avatar: uploadedCroppedImage };
       const updates = {};
-      updates["/users/" + user.currentUser.uid] = newDate;
+      updates["/users/" + user.currentUser.uid + "/avatar"] =
+        uploadedCroppedImage;
       await update(ref(getDatabase()), updates);
       closeModal();
     }
@@ -83,7 +83,7 @@ function ProfileModal({ open, handleClose }) {
 
   return (
     <Dialog open={open} onClose={closeModal}>
-      <DialogTitle>프로필 이미지 변경</DialogTitle>
+      <DialogTitle>프로필 변경</DialogTitle>
       <DialogContent>
         <Stack direction="column" spacing={3}>
           <Input

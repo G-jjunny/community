@@ -16,7 +16,7 @@ import ProfileModal from "./Modal/ProfileModal";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
 function Header() {
-  const { user } = useSelector((state) => state);
+  const { user, theme } = useSelector((state) => state);
 
   // state
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,10 +51,10 @@ function Header() {
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          // color: "#9a939b",
-          color: "#eef3ee",
-          // backgroundColor: "#4c3c4c",
-          backgroundColor: "#a5a19c",
+          // color: "#eef3ee",
+          color: theme.textTheme,
+          // backgroundColor: "#a5a19c",
+          backgroundColor: theme.mainTheme,
         }}
       >
         <Toolbar
@@ -79,7 +79,8 @@ function Header() {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ color: "#eef3ee" }}
+                // sx={{ color: "#eef3ee" }}
+                sx={{ color: theme.textTheme }}
               >
                 {user.currentUser?.displayName}
               </Typography>

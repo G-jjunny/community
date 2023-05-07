@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const relativeTime = require("dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
@@ -15,6 +16,7 @@ dayjs.extend(relativeTime);
 const IsImage = (message) => message.hasOwnProperty("image");
 
 function ChatMessage({ message, user, channelInfo }) {
+  const { theme } = useSelector((state) => state);
   return (
     <>
       <ListItem
@@ -97,8 +99,10 @@ function ChatMessage({ message, user, channelInfo }) {
                   wordBreak: "break-all",
                   background:
                     message.user.id === user.currentUser.uid
-                      ? "var(--secondary-color)"
-                      : "var(--white-color)",
+                      ? // ? "var(--secondary-color)"
+                        theme.mainTheme
+                      : // : "var(--white-color)",
+                        theme.subTheme,
                   p: "5px 10px 5px 10px",
                   borderRadius:
                     message.user.id === user.currentUser.uid
