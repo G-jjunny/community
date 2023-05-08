@@ -70,33 +70,11 @@ function Chat() {
         variant="outlined"
         sx={{ mt: 8, position: "relative" }}
       >
-        <div
-          style={{
-            width: "100%",
-            // textAlign: "center",
-            alignItems: "flex-end",
-            backgroundColor: theme.subTheme,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <p
-            style={{
-              margin: "5px 0 10px 25px",
-              fontSize: "36px",
-              fontWeight: "bold",
-              color: theme.textTheme,
-            }}
-          >
+        <div className="chat-head" style={{ backgroundColor: theme.subTheme }}>
+          <p className="main" style={{ color: theme.textTheme }}>
             {channel.currentChannel?.name}
           </p>
-          <p
-            style={{
-              margin: "5px 25px 15px 0",
-              color: theme.textTheme,
-              fontSize: "24px",
-            }}
-          >
+          <p className="details" style={{ color: theme.textTheme }}>
             {channel.currentChannel?.details}
           </p>
         </div>
@@ -104,7 +82,7 @@ function Chat() {
           sx={{
             zIndex: "5",
             // pt: "45px",
-            height: "calc(100vh - 330px)",
+            height: "calc(100vh - 290px)",
             // height: "100%",
             // minHeight: "250px",
             overflowY: "scroll",
